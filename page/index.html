@@ -4,31 +4,34 @@
         <title>反馈</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./style.css" rel="stylesheet" />
     </head>
     <body>
-        <h1>问题反馈</h1>
+        <div class="container">
+            <nav></nav>
+            <h1>问题反馈</h1>
 
-        <form
-            action="http://116.62.152.170:8080/issue"
-            enctype="multipart/form-data"
-            method="post"
-            class="form"
-        >
-            <label>反馈人</label>
-            <br />
-            <input type="text" class="poster" name="poster" />
-            <br />
+            <form enctype="multipart/form-data" class="form">
+                <label>反馈人: </label>
+                <br />
+                <input type="text" class="poster" name="poster" />
+                <br />
+                <br />
 
-            <label>描述</label>
-            <br />
-            <input type="text" class="desc" name="desc" />
-            <br />
-            <label>添加图片</label>
-            <br />
-            <input type="file" name="image" accept=".jpg, .jpeg, .png" />
-            <br />
-            <input type="submit" value="上传" class="btn" />
-        </form>
+                <label>描述: </label>
+                <br />
+                <input type="text" class="desc" name="desc" />
+                <br />
+                <input
+                    type="file"
+                    name="image"
+                    accept=".jpg, .jpeg, .png"
+                    class="img"
+                />
+                <br />
+                <button class="btn" type="button">上传</button>
+            </form>
+        </div>
 
         <script src="./main.js"></script>
     </body>

@@ -1,24 +1,13 @@
-const express = require("express");
-const app = express();
-const bodyparser = require("body-parser");
+const app = require("./app.js");
 const multer = require("multer");
 const path = require("path");
 const { connection } = require("./util/dbUtil.js");
 const { convertToDateTime } = require("./util/dateHelper.js");
-const cors = require("cors");
+const dotenv = require("dotenv");
 
-//use express static folder
-app.use(express.static("./public"));
+dotenv.config({ path: "./config.env" });
 
-// body-parser middleware use
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(
-    bodyparser.urlencoded({
-        extended: true,
-    })
-);
-app.use(cors());
+const { REMOTE_IMG_URL, LOCAL_IMG_URL } = process.env;
 
 // Database connection
 connection.connect(function (err) {
@@ -67,7 +56,7 @@ app.post("/issue", upload.single("image"), (req, res) => {
     if (!req.file) {
         res.status(400).json({
             status: "Bad request",
-            message: "Can't find file"
+            message: "Can't find file",
         });
     } else {
         console.log(req.file.filename);
@@ -78,14 +67,18 @@ app.post("/issue", upload.single("image"), (req, res) => {
         console.log(req.body);
 
         const createDate = convertToDateTime(+req.requestTime);
-        const imgsrc = "http://116.62.152.170:8080/images/" + req.file.filename;
+        const imgsrc = LOCAL_IMG_URL + req.file.filename;
         const insertData = `INSERT INTO issue(poster, create_date, description, image) VALUES(?, ?, ?, ?)`;
-        connection.query(insertData, [poster, createDate, desc, imgsrc], (err, _result) => {
-            if (err) {
-                throw err;
+        connection.query(
+            insertData,
+            [poster, createDate, desc, imgsrc],
+            (err, _result) => {
+                if (err) {
+                    throw err;
+                }
+                console.log("file uploaded");
             }
-            console.log("file uploaded");
-        });
+        );
 
         res.status(200).json({
             status: "File uploaded",
