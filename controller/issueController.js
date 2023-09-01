@@ -1,16 +1,8 @@
-const { convertToDateTime } = require("./../util/dateHelper.js");
+const { convertToISOString } = require("./../util/dateHelper.js");
 const { REMOTE_IMG_URL, LOCAL_IMG_URL } = require("../config.js");
-const { connection } = require("./../util/dbUtil.js");
+const { Issue } = require("./../models/issueModel.js");
 
-// Database connection
-connection.connect(function (err) {
-    if (err) {
-        return console.error("error: " + err.message);
-    }
-    console.log("Connected to the MySQL server.");
-});
-
-exports.createIssue = (req, res) => {
+exports.createIssue = async (req, res) => {
     if (!req.file) {
         res.status(400).json({
             status: "Bad request",
@@ -24,19 +16,29 @@ exports.createIssue = (req, res) => {
         const desc = req.body.desc;
         console.log(req.body);
 
-        const createDate = convertToDateTime(+req.requestTime);
+        const createDate = convertToISOString(+req.requestTime);
         const imgsrc = LOCAL_IMG_URL + req.file.filename;
-        const insertData = `INSERT INTO issue(poster, create_date, description, image) VALUES(?, ?, ?, ?)`;
-        connection.query(
-            insertData,
-            [poster, createDate, desc, imgsrc],
-            (err, _result) => {
-                if (err) {
-                    throw err;
-                }
-                console.log("file uploaded");
-            }
-        );
+
+        await Issue.create({
+            poster,
+            createDate: createDate,
+            description: desc,
+            image: imgsrc,
+            state: "wait",
+            fixedDate: null,
+        });
+        // const insertData = `INSERT INTO issue(poster, create_date, description, image) VALUES(?, ?, ?, ?)`;
+
+        // connection.query(
+        //     insertData,
+        //     [poster, createDate, desc, imgsrc],
+        //     (err, _result) => {
+        //         if (err) {
+        //             throw err;
+        //         }
+        //         console.log("file uploaded");
+        //     }
+        // );
 
         res.status(200).json({
             status: "File uploaded",

@@ -1,4 +1,5 @@
-const mysql = require("mysql2");
+const { Sequelize } = require("sequelize");
+
 const {
     DB_HOST: host,
     DB_USER: user,
@@ -6,10 +7,15 @@ const {
     DB_PASSWORD: password,
 } = require("./../config.js");
 
-// create the connection to database
-exports.connection = mysql.createConnection({
+exports.sequelize = new Sequelize(database, user, password, {
     host,
-    user,
-    database,
-    password,
+    dialect: "mysql",
 });
+
+// create the connection to database
+// exports.connection = mysql.createConnection({
+//     host,
+//     user,
+//     database,
+//     password,
+// });
