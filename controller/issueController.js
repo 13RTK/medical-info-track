@@ -19,7 +19,7 @@ exports.createIssue = async (req, res) => {
         const createDate = convertToISOString(+req.requestTime);
         const imgsrc = LOCAL_IMG_URL + req.file.filename;
 
-        await Issue.create({
+        const createdIssue = await Issue.create({
             poster,
             createDate: createDate,
             description: desc,
@@ -27,23 +27,13 @@ exports.createIssue = async (req, res) => {
             state: "wait",
             fixedDate: null,
         });
-        // const insertData = `INSERT INTO issue(poster, create_date, description, image) VALUES(?, ?, ?, ?)`;
 
-        // connection.query(
-        //     insertData,
-        //     [poster, createDate, desc, imgsrc],
-        //     (err, _result) => {
-        //         if (err) {
-        //             throw err;
-        //         }
-        //         console.log("file uploaded");
-        //     }
-        // );
+        // console.log(createdIssue);
 
         res.status(200).json({
             status: "File uploaded",
             data: {
-                imgsrc,
+                issue: createdIssue,
             },
         });
     }

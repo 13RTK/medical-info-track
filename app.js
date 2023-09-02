@@ -1,32 +1,26 @@
 const express = require("express");
 const cors = require("cors");
-const bodyparser = require("body-parser");
 const morgan = require("morgan");
-
-const { upload } = require("./util/multerHelper.js");
-const { createIssue } = require("./controller/issueController.js");
+const issueRouter = require("./route/issueRoute");
 
 const app = express();
 
 app.use(express.static("./public"));
 app.use(morgan("dev"));
+app.use(express.json());
 
-// body-parser middleware use
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(
-    bodyparser.urlencoded({
-        extended: true,
-    })
-);
+app.use(express.urlencoded({ extended: true }));
+
 // Cross origin resources
 app.use(cors());
+
+// Add timestamp for each request
 app.use((req, _res, next) => {
     req.requestTime = Date.now();
 
     next();
 });
 
-app.post("/issue", upload.single("image"), createIssue);
+app.use("/api/v1", issueRouter);
 
 module.exports = app;

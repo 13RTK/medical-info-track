@@ -8,10 +8,12 @@
     </head>
     <body>
         <div class="container">
-            <nav></nav>
+            <nav>
+                <a href="./admin/admin.html" target="_blank">管理员登陆</a>
+            </nav>
             <h1>问题反馈</h1>
 
-            <form enctype="multipart/form-data" class="form">
+            <div enctype="multipart/form-data" class="form">
                 <label>反馈人: </label>
                 <br />
                 <input type="text" class="poster" name="poster" />
@@ -30,9 +32,22 @@
                 />
                 <br />
                 <button class="btn" type="button">上传</button>
-            </form>
+            </div>
         </div>
 
+        <div class="check hidden">
+            <h1>确认提交？</h1>
+            <label>反馈人：</label>
+            <h3 class="poster-check">eafaefeafea</h3>
+            <br />
+
+            <label>描述：</label>
+            <h3 class="desc-check">eafeafaefeafeafa</h3>
+
+            <br />
+            <button type="button" class="confirm">确认</button>
+            <button type="button" class="cancel">取消</button>
+        </div>
         <script src="./main.js"></script>
     </body>
 </html>

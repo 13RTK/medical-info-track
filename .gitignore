@@ -1,4 +1,8 @@
+# Exclude node dependency file and images
 **/node_modules/
 *.jpg
 *.png
 *.jpeg
+
+# Exclude vscode config
+.vscode/

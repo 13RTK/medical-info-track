@@ -1,13 +1,17 @@
 .container {
     width: 300px;
-    margin: 0 auto;
+    text-align: center;
     margin-top: 10%;
     font-family: sans-serif;
+    margin: 0 auto;
 }
 
-h1 {
-    margin: 0 auto;
-    width: 50%;
+.check {
+    text-align: center;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .form {
@@ -68,3 +72,9 @@ input[type="file"]::before {
     color: black;
     margin-right: 10px;
 }
+
+.hidden {
+    display: none;
+}
+
+/* Response page styles */

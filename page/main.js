@@ -1,18 +1,41 @@
 "use strict";
 
-const subBtnEle = document.querySelector(".btn");
+const containerEle = document.querySelector(".container");
+const checkEle = document.querySelector(".check");
+const responseEle = document.querySelector(".response");
+
 const postInput = document.querySelector(".poster");
 const descInput = document.querySelector(".desc");
 const imgInput = document.querySelector(".img");
-const localPath = "http://127.0.0.1:8080/issue";
-const remotePath = "http://116.62.152.170:8080/issue";
+const posterCheck = document.querySelector(".poster-check");
+const descCheck = document.querySelector(".desc-check");
+const successMsgEle = document.querySelector(".success-msg");
 
-subBtnEle.addEventListener("click", async (event) => {
+const subBtnEle = document.querySelector(".btn");
+const cancelBtn = document.querySelector(".cancel");
+const confirmBtn = document.querySelector(".confirm");
+
+const localPath = "http://127.0.0.1:8080/api/v1/issue";
+const remotePath = "http://116.62.152.170:8080/api/v1/issue";
+
+let poster = "";
+let desc = "";
+
+const toggleContainerAndCheck = () => {
+    containerEle.classList.toggle("hidden");
+    checkEle.classList.toggle("hidden");
+};
+
+const toggleReponseAndOther = () => {
+    responseEle.classList.toggle("hidden");
+    checkEle.classList.toggle("hidden");
+};
+
+subBtnEle.addEventListener("click", (event) => {
     event.preventDefault();
 
-    const poster = postInput.value.trim();
-    const desc = descInput.value.trim();
-    const originFileName = imgInput.value.trim();
+    poster = postInput.value.trim();
+    desc = descInput.value.trim();
 
     if (
         poster.length === 0 ||
@@ -34,18 +57,36 @@ subBtnEle.addEventListener("click", async (event) => {
         return;
     }
 
+    toggleContainerAndCheck();
+});
+
+cancelBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    toggleContainerAndCheck();
+});
+
+confirmBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
     // Get the form data as a JavaScript object
+    const originFileName = imgInput.value.trim();
     const formData = new FormData();
     const extname = originFileName.split(".")[1];
     formData.append("poster", poster);
     formData.append("desc", desc);
     formData.append("image", imgInput.files[0], `${poster}-${desc}.${extname}`);
 
-    // Make a POST request to the server using fetch()
     const response = await fetch(localPath, {
         method: "POST",
         body: formData,
     });
+    const responseData = await response.json();
 
-    console.log(JSON.stringify(response));
+    // TODO: Need testing
+
+    // localStorage.setItem("id", JSON.stringify(responseData));
+    // window.location.replace("./response.html");
+
+    // console.log("After window.location");
 });

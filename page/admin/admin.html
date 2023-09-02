@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./admin.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="app">
+            <p v-if="isLogin">欢迎: {{ username }}</p>
+            <p v-else>未登录</p>
+
+            <form v-if="!isLogin" class="form">
+                <label>账号：</label>
+                <input
+                    v-model.lazy.trim="username"
+                    type="text"
+                    class="username"
+                />
+                <br />
+
+                <label>密码：</label>
+                <input
+                    v-model.lazy.trim="password"
+                    type="password"
+                    class="password"
+                />
+
+                <br />
+                <button class="btn">登陆</button>
+            </form>
+        </div>
+
+        <script src="https://unpkg.com/vue@latest"></script>
+        <script defer>
+            const app = {
+                data() {
+                    return {
+                        isLogin: false,
+                        username: "Default",
+                        password: "",
+                        username: "",
+                    };
+                },
+            };
+
+            Vue.createApp(app).mount("#app");
+        </script>
+    </body>
+</html>
