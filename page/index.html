@@ -7,47 +7,82 @@
         <link href="./style.css" rel="stylesheet" />
     </head>
     <body>
-        <div class="container">
-            <nav>
-                <a href="./admin/admin.html" target="_blank">管理员登陆</a>
-            </nav>
-            <h1>问题反馈</h1>
+        <div id="app">
+            <div class="container" v-bind:class="containerHidden">
+                <nav>
+                    <a href="./admin/admin.html" target="_blank">管理员登陆</a>
+                </nav>
+                <h1>问题反馈</h1>
 
-            <div enctype="multipart/form-data" class="form">
-                <label>反馈人: </label>
-                <br />
-                <input type="text" class="poster" name="poster" />
-                <br />
-                <br />
+                <div enctype="multipart/form-data" class="form">
+                    <label>反馈人: </label>
+                    <br />
+                    <input
+                        type="text"
+                        class="poster"
+                        name="poster"
+                        v-model.lazy.trim="poster"
+                    />
+                    <br />
+                    <br />
 
-                <label>描述: </label>
-                <br />
-                <input type="text" class="desc" name="desc" />
-                <br />
-                <input
-                    type="file"
-                    name="image"
-                    accept=".jpg, .jpeg, .png"
-                    class="img"
-                />
-                <br />
-                <button class="btn" type="button">上传</button>
+                    <label>描述: </label>
+                    <br />
+                    <input
+                        type="text"
+                        class="desc"
+                        name="desc"
+                        v-model.lazy.trim="desc"
+                    />
+                    <br />
+                    <input
+                        type="file"
+                        name="image"
+                        accept=".jpg, .jpeg, .png"
+                        class="img"
+                        v-on:change.prevent="imageChange($event)"
+                    />
+                    <br />
+                    <button
+                        class="upload-btn"
+                        type="button"
+                        v-on:click.trim="upload"
+                    >
+                        上传
+                    </button>
+                </div>
             </div>
+
+            <div class="check" v-bind:class="checkHidden">
+                <h1>确认提交？</h1>
+                <label>反馈人：</label>
+                <h3 class="poster-check">{{ poster }}</h3>
+                <br />
+
+                <label>描述：</label>
+                <h3 class="desc-check">{{ desc }}</h3>
+
+                <br />
+                <button
+                    type="button"
+                    class="confirm"
+                    v-on:click.prevent="confirm"
+                >
+                    确认
+                </button>
+                <button
+                    type="button"
+                    class="cancel"
+                    v-on:click.prevent="cancel"
+                >
+                    取消
+                </button>
+            </div>
+
+            <div class="response" v-bind:class="responseHidden"></div>
         </div>
 
-        <div class="check hidden">
-            <h1>确认提交？</h1>
-            <label>反馈人：</label>
-            <h3 class="poster-check">eafaefeafea</h3>
-            <br />
-
-            <label>描述：</label>
-            <h3 class="desc-check">eafeafaefeafeafa</h3>
-
-            <br />
-            <button type="button" class="confirm">确认</button>
-            <button type="button" class="cancel">取消</button>
-        </div>
+        <script src="https://unpkg.com/vue@3.3.4"></script>
         <script src="./main.js"></script>
     </body>
 </html>

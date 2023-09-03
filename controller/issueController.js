@@ -1,6 +1,10 @@
-const { convertToISOString } = require("./../util/dateHelper.js");
+const {
+    convertToISOString,
+    convertToDateTime,
+} = require("./../util/dateHelper.js");
 const { REMOTE_IMG_URL, LOCAL_IMG_URL } = require("../config.js");
 const { Issue } = require("./../models/issueModel.js");
+const { sequelize } = require("../util/dbUtil.js");
 
 exports.createIssue = async (req, res) => {
     if (!req.file) {
@@ -16,17 +20,28 @@ exports.createIssue = async (req, res) => {
         const desc = req.body.desc;
         console.log(req.body);
 
-        const createDate = convertToISOString(+req.requestTime);
+        const createDate = convertToDateTime(+req.requestTime);
         const imgsrc = LOCAL_IMG_URL + req.file.filename;
 
-        const createdIssue = await Issue.create({
-            poster,
-            createDate: createDate,
-            description: desc,
-            image: imgsrc,
-            state: "wait",
-            fixedDate: null,
-        });
+        console.log("=".repeat(20));
+        console.log(createDate);
+        console.log(imgsrc);
+        console.log(poster);
+        console.log(desc);
+
+        console.log("=".repeat(20));
+        // const createdIssue = await Issue.create({
+        //     poster,
+        //     createDate: Sequelize.literal(createDate),
+        //     description: desc,
+        //     image: imgsrc,
+        //     state: "wait",
+        //     fixedDate: null,
+        // });
+
+        const createdIssue = await sequelize.query(
+            `INSERT INTO issue (poster, create_date, description, image, state, fixed_date) VALUES ('${poster}', '${createDate}', '${desc}', '${imgsrc}', 'wait', null);`
+        );
 
         // console.log(createdIssue);
 
