@@ -11,11 +11,3 @@ exports.sequelize = new Sequelize(database, user, password, {
     host,
     dialect: "mysql",
 });
-
-// create the connection to database
-// exports.connection = mysql.createConnection({
-//     host,
-//     user,
-//     database,
-//     password,
-// });

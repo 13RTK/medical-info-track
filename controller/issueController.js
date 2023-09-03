@@ -43,12 +43,41 @@ exports.createIssue = async (req, res) => {
             `INSERT INTO issue (poster, create_date, description, image, state, fixed_date) VALUES ('${poster}', '${createDate}', '${desc}', '${imgsrc}', 'wait', null);`
         );
 
-        // console.log(createdIssue);
+        console.log(
+            JSON.stringify({
+                status: "File uploaded",
+                data: {
+                    issue: createdIssue,
+                },
+            })
+        );
 
         res.status(200).json({
             status: "File uploaded",
             data: {
                 issue: createdIssue,
+            },
+        });
+    }
+};
+
+exports.findIssueById = async (req, res) => {
+    const issueId = +req.query.issueId;
+
+    console.log(issueId);
+
+    const issue = await Issue.findOne({ where: { id: issueId } });
+    if (issue === null) {
+        res.status(404).json({
+            status: "Not found",
+            message: "Issue not found",
+        });
+    } else {
+        console.log(JSON.stringify(issue));
+        res.status(200).json({
+            status: "query success",
+            data: {
+                issue: issue,
             },
         });
     }
