@@ -18,10 +18,9 @@ exports.createIssue = async (req, res) => {
 
         const poster = req.body.poster;
         const desc = req.body.desc;
-        console.log(req.body);
 
         const createDate = convertToDateTime(+req.requestTime);
-        const imgsrc = LOCAL_IMG_URL + req.file.filename;
+        const imgsrc = REMOTE_IMG_URL + req.file.filename;
 
         console.log("=".repeat(20));
         console.log(createDate);
