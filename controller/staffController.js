@@ -49,3 +49,19 @@ exports.getStaffById = async (req, res) => {
         },
     });
 };
+
+exports.getAllStaff = async (_req, res) => {
+    const staffList = await Staff.findAll();
+    if (!staffList) {
+        res.status(500).json({
+            status: "failed",
+            message: "Failed to get all staff info",
+        });
+    }
+
+    res.status(200).json({
+        status: "success",
+        length: staffList.length,
+        data: staffList,
+    });
+};
