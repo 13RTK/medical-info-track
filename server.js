@@ -3,8 +3,13 @@ const app = require("./app.js");
 const { sequelize } = require("./util/dbUtil.js");
 
 (async () => {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    try {
+        await sequelize.authenticate();
+        console.log("Connection has been established successfully.");
+    } catch (error) {
+        console.log("Error occur during connect to DB!!!");
+        console.log(error.message);
+    }
 })();
 
 //create connection

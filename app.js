@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const issueRouter = require("./route/issueRoute");
+const staffRouter = require("./route/staffRoute.js");
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use((req, _res, next) => {
 });
 
 app.use("/api/v1", issueRouter);
+app.use("/api/v1", staffRouter);
 
 module.exports = app;

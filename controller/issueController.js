@@ -39,7 +39,7 @@ exports.createIssue = async (req, res) => {
         // });
 
         const createdIssue = await sequelize.query(
-            `INSERT INTO issue (poster, create_date, description, image, state, fixed_date) VALUES ('${poster}', '${createDate}', '${desc}', '${imgsrc}', 'wait', null);`
+            `INSERT INTO issue (poster, create_date, description, image, state, fixed_date, staff_id) VALUES ('${poster}', '${createDate}', '${desc}', '${imgsrc}', 'wait', null, null);`
         );
 
         console.log(
@@ -77,6 +77,25 @@ exports.findIssueById = async (req, res) => {
             status: "query success",
             data: {
                 issue: issue,
+            },
+        });
+    }
+};
+
+exports.findAllIssue = async (_req, res) => {
+    const issueArr = await Issue.findAll();
+
+    if (issueArr.length === 0) {
+        res.status(500).json({
+            status: "failed",
+            message: "Can't get issues",
+        });
+    } else {
+        res.status(200).json({
+            status: "success",
+            length: issueArr.length,
+            data: {
+                issueArr,
             },
         });
     }

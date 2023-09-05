@@ -34,6 +34,11 @@ exports.Issue = sequelize.define(
             type: DataTypes.DATE,
             field: "create_date",
         },
+        staffId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            field: "staff_id",
+        },
     },
     {
         tableName: "issue",
