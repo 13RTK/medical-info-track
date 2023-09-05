@@ -100,3 +100,86 @@ exports.findAllIssue = async (_req, res) => {
         });
     }
 };
+
+exports.findIssueByStaffId = async (req, res) => {
+    const staffId = req.query.staffId;
+    if (!staffId) {
+        res.status(400).json({
+            status: "bad request",
+            message: "missing field staffId",
+        });
+    }
+
+    const issueList = await sequelize.query(
+        `SELECT t1.* FROM issue AS t1 RIGHT JOIN staff AS t2 ON t1.staff_id = t2.id WHERE t2.id = ${staffId}`
+    );
+
+    if (!issueList) {
+        res.status(404).json({
+            status: "not found",
+            message: `can't found any issue for id: ${staffId}`,
+        });
+    }
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            issueList: issueList[0],
+        },
+    });
+};
+
+exports.updateIssueStaff = async (req, res) => {
+    const { id, staffId } = req.body;
+    if (!id || !staffId) {
+        console.log("missing fields!");
+        res.status(400).json({
+            status: "bad request",
+            message: "missing fields",
+        });
+    }
+
+    const workRow = await Issue.update(
+        { staffId },
+        {
+            where: {
+                id,
+            },
+        }
+    );
+    console.log(`id : ${id}`);
+    console.log(`staffId : ${staffId}`);
+    console.log(workRow[0]);
+
+    if (workRow[0] !== 1) {
+        console.log("wrong field value");
+        res.status(400).json({
+            status: "bad request",
+            message: "wrong field value",
+        });
+    } else {
+        res.status(200).json({
+            status: "success",
+        });
+    }
+};
+
+// const demoTest = async (staffId, id) => {
+//     if (!id || !staffId) {
+//         res.status(400).json({
+//             status: "bad request",
+//             message: "missing fields",
+//         });
+//     }
+
+//     const updateIssue = await Issue.update(
+//         { staffId },
+//         {
+//             where: {
+//                 id,
+//             },
+//         }
+//     );
+// };
+
+// demoTest(1, 4);
