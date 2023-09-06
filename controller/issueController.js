@@ -39,7 +39,7 @@ exports.createIssue = async (req, res) => {
         // });
 
         const createdIssue = await sequelize.query(
-            `INSERT INTO issue (poster, create_date, description, image, state, fixed_date, staff_id) VALUES ('${poster}', '${createDate}', '${desc}', '${imgsrc}', 'wait', null, null);`
+            `INSERT INTO issue (poster, create_date, description, image, state, fixed_date, staff_id) VALUES ("${poster}", "${createDate}", "${desc}", "${imgsrc}", "wait", null, null);`
         );
 
         console.log(
