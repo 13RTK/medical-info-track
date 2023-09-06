@@ -1,4 +1,5 @@
 # medical-info-track
+The project is used to record, retrieve, and update the issue in the hospital, it's a full JavaScript backend project.
 
 ## 1. Npm dependencies
 This project builds via node.js, express, multer, morgan, dotenv, cors, sequelize
