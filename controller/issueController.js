@@ -140,7 +140,7 @@ exports.updateIssueStaff = async (req, res) => {
     }
 
     const workRow = await Issue.update(
-        { staffId },
+        { staffId, state: "fixing" },
         {
             where: {
                 id,
