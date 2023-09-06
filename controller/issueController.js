@@ -164,6 +164,43 @@ exports.updateIssueStaff = async (req, res) => {
     }
 };
 
+exports.updateIssueState = async (req, res) => {
+    const issueId = req.query.issueId;
+
+    if (!issueId) {
+        res.status(400).json({
+            status: "faild",
+            message: "missing field!",
+        });
+    }
+    const fixedDateStr = convertToISOString(req.requestTime);
+    console.log(`Fixed Date : ${fixedDateStr}`);
+
+    const workRow = await Issue.update(
+        {
+            state: "complete",
+            fixedDate: fixedDateStr,
+        },
+        {
+            where: {
+                id: issueId,
+            },
+        }
+    );
+
+    if (workRow[0] !== 1) {
+        console.log("wrong field value");
+        res.status(400).json({
+            status: "bad request",
+            message: "wrong field value",
+        });
+    } else {
+        res.status(200).json({
+            status: "success",
+        });
+    }
+};
+
 // const demoTest = async (staffId, id) => {
 //     if (!id || !staffId) {
 //         res.status(400).json({

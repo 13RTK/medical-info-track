@@ -26,26 +26,28 @@ exports.verifyStaffLogin = async (req, res) => {
 };
 
 exports.getStaffById = async (req, res) => {
-    const id = req.query.id;
-    if (!id) {
+    const staffId = req.query.staffId;
+    if (!staffId) {
         res.status(404).json({
             status: "failed",
             message: "id field missing!",
         });
     }
 
-    const staff = await sequelize.query(`SELECT * FROM staff WHERE id = ${id}`);
+    const staff = await sequelize.query(
+        `SELECT * FROM staff WHERE id = ${staffId}`
+    );
     if (!staff) {
         res.status(404).json({
             status: "failed",
-            message: `Can't found this staff : ${id}`,
+            message: `Can't found this staff : ${staffId}`,
         });
     }
 
     res.status(200).json({
         status: "success",
         data: {
-            staff,
+            staff: staff[0],
         },
     });
 };

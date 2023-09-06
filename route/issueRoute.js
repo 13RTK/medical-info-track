@@ -6,6 +6,7 @@ const {
     findAllIssue,
     findIssueByStaffId,
     updateIssueStaff,
+    updateIssueState,
 } = require("../controller/issueController.js");
 
 const issueRouter = express.Router();
@@ -18,5 +19,6 @@ issueRouter
 
 issueRouter.route("/issue-all").get(findAllIssue);
 issueRouter.route("/staff-issue-all").get(findIssueByStaffId);
+issueRouter.route("/issue-complete").get(updateIssueState);
 
 module.exports = issueRouter;
